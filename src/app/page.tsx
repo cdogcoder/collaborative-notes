@@ -16,13 +16,9 @@ export default function Home() {
 
   return (
     <div className="body">
-      <textarea className="document" onKeyUp={(event) => {
-        if (event.keyCode >= 65 && event.keyCode <= 90) {
-          setText(text + event.key)
-        } else if (event.key == "Backspace") {
-          setText(text.slice(0,text.length-1));
-        };
-        
+      <textarea className="document" onKeyUp={() => {
+        const textArea = document.querySelector('textarea');
+        if (textArea !== null) setText(textArea.value);
       }} defaultValue={text}></textarea>
     </div>
   );
