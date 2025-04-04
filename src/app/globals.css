@@ -15,8 +15,15 @@
     gap: 1rem;
 }
 
+.navigation-bar {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
 .document-title {
-    align-self: flex-start;
     padding: .25rem;
     outline: none;
     border: .5px solid black;
