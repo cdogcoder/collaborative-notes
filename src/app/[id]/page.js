@@ -16,10 +16,10 @@ export default function DocumentPage() {
 
     setDocumentTitle(document.data().documentTitle);
     setDocumentText(document.data().documentText);
-  }
+  };
 
   useEffect(() => {
-    displayDocumentTitleAndText()
+    displayDocumentTitleAndText();
   }, []);
 
   const saveDocument = async () => {
@@ -51,6 +51,7 @@ export default function DocumentPage() {
         <button className="save-document-button" onClick={() => saveDocument()}>
           Save
         </button>
+        <button className="exit-document-page-button" onClick={() => exitDocumentPage()}>Exit</button>
       </div>
       <textarea
         className="document-page"
