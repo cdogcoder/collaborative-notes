@@ -26,7 +26,7 @@ export default function Home() {
       {documents.map((document) => {
         return (
           <Link className="document" href={`/${document.id}`} key={document.id}>
-            {document.title} {document.id}
+            {document.documentTitle}
           </Link>
         );
       })}

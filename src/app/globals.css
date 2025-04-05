@@ -21,6 +21,8 @@
     width: 200px;
     height: 300px;
     padding: 1rem;
+    word-break: keep-all;
+    overflow: hidden;
 }
 
 .body {
