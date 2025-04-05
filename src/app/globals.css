@@ -13,6 +13,11 @@
     padding: 1rem;
 }
 
+.add-new-document-button {
+    margin: 1rem 0 0 1rem;
+    padding: .25rem;
+}
+
 .document {
     background-color: rgba(207, 207, 207, 0.5);
     color: black;
