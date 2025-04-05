@@ -1,5 +1,5 @@
 "use client";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { db } from "./config/firebase";
 import { useState, useEffect } from "react";
 
@@ -24,10 +24,17 @@ export default function Home() {
   const saveDocument = async () => {
     const collectionRef = collection(db, "documents");
 
-    const docRef = await addDoc(collectionRef, {
-      documentTitle: documentTitle,
-      documentText: documentPageText,
-    });
+    const documentsSnapshot = await getDocs(collectionRef);
+
+    const documents = documentsSnapshot.docs.map((doc) => ({
+      ...doc.data(), id: doc.id
+    }))
+
+    console.log(documents)
+    // const docRef = await addDoc(collectionRef, {
+    //   documentTitle: documentTitle,
+    //   documentText: documentPageText,
+    // });
   };
 
   return (
