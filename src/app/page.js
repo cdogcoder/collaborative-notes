@@ -28,21 +28,30 @@ export default function Home() {
       documentText: "",
     });
     redirect(`/${docRef.id}`);
-  }
+  };
 
   return (
     <>
-      <button className="add-new-document-button" onClick={() => addNewDocument()}>Add New Document</button>
+      <button
+        className="add-new-document-button"
+        onClick={() => addNewDocument()}
+      >
+        Add New Document
+      </button>
       <div className="documents-container">
         {documents.map((document) => {
           return (
-            <Link className="document" href={`/${document.id}`} key={document.id}>
+            <Link
+              className="document"
+              href={`/${document.id}`}
+              key={document.id}
+            >
               {document.documentTitle}
+              <button className="delete-document-button">Delete Document</button>
             </Link>
           );
         })}
       </div>
     </>
-    
   );
 }
