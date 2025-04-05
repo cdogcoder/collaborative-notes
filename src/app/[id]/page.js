@@ -2,7 +2,7 @@
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 
 export default function DocumentPage() {
   const params = useParams();
@@ -38,6 +38,10 @@ export default function DocumentPage() {
       });
     }
   };
+
+  const exitDocumentPage = () => {
+    redirect("/");
+  }
 
   return (
     <div className="body">
