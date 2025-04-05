@@ -1,5 +1,5 @@
 "use client";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./config/firebase";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -30,6 +30,12 @@ export default function Home() {
     redirect(`/${docRef.id}`);
   };
 
+  const deleteDocument = async (id) => {
+    const docRef = doc(db, "documents", id);
+    await deleteDoc(docRef);
+    displayDocuments();
+  };
+
   return (
     <>
       <button
@@ -41,14 +47,22 @@ export default function Home() {
       <div className="documents-container">
         {documents.map((document) => {
           return (
-            <Link
+            <div
               className="document"
-              href={`/${document.id}`}
               key={document.id}
+              onClick={() => redirect(`/${document.id}`)}
             >
               {document.documentTitle}
-              <button className="delete-document-button">Delete Document</button>
-            </Link>
+              <button
+                className="delete-document-button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  deleteDocument(document.id);
+                }}
+              >
+                Delete Document
+              </button>
+            </div>
           );
         })}
       </div>
