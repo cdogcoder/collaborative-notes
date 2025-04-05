@@ -25,7 +25,7 @@ export default function Home() {
     <div className="documents-container">
       {documents.map((document) => {
         return (
-          <Link href={`/${document.id}`} key={document.id}>
+          <Link className="document" href={`/${document.id}`} key={document.id}>
             {document.title} {document.id}
           </Link>
         );
