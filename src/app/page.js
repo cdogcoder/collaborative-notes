@@ -23,6 +23,7 @@ export default function Home() {
 
   return (
     <div className="documents-container">
+      <button className="add-new-document-button">Add New Document</button>
       {documents.map((document) => {
         return (
           <Link className="document" href={`/${document.id}`} key={document.id}>
