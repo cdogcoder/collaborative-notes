@@ -28,6 +28,13 @@
     padding: 1rem;
     word-break: keep-all;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.delete-document-button {
+    align-self: flex-end;
 }
 
 .body {
