@@ -108,15 +108,19 @@ export default function DocumentPage() {
   };
 
   const sendMessage = () => {
-    const newMessage = { role: "user", parts: [{ text: userMessage }] };
-    const updatedChatHistory = [...chatHistory, newMessage];
-    getChatbotResponse(updatedChatHistory).then((chatbotResponse) => {
-      const chatbotMessage = {
-        role: "model",
-        parts: [{ text: chatbotResponse }],
-      };
-      setChatHistory([...updatedChatHistory, chatbotMessage]);
-    });
+    if (userMessage == "clear") {
+      setChatHistory([]);
+    } else {
+      const newMessage = { role: "user", parts: [{ text: userMessage }] };
+      const updatedChatHistory = [...chatHistory, newMessage];
+      getChatbotResponse(updatedChatHistory).then((chatbotResponse) => {
+        const chatbotMessage = {
+          role: "model",
+          parts: [{ text: chatbotResponse }],
+        };
+        setChatHistory([...updatedChatHistory, chatbotMessage]);
+      });
+    }
     setUserMessage("");
   };
 
@@ -196,7 +200,7 @@ export default function DocumentPage() {
               ></input>
               <button
                 className="send-message-button"
-                onClick={(event) => sendMessage(event)}
+                onClick={() => sendMessage()}
               >
                 Send
               </button>
