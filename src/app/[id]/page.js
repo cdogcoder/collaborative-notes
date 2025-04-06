@@ -127,6 +127,37 @@ export default function DocumentPage() {
     if (messageInput !== null) messageInput.value = "";
   };
 
+  const getDocumentSummary = () => {if (summarizeDocument) {
+    const newMessage = {
+      role: "user",
+      parts: [{ text: documentText }],
+    };
+    getChatbotResponse([newMessage]).then(
+      (chatbotResponse) => {
+        const chatbotMessage = {
+          role: "model",
+          parts: [{ text: chatbotResponse }],
+        };
+        setChatHistory([...chatHistory, chatbotMessage]);
+      }
+    );
+  } else {
+    setSummarizeDocument(true);
+    const newMessage = {
+      role: "user",
+      parts: [{ text: documentText }],
+    };
+    getChatbotResponse([newMessage]).then(
+      (chatbotResponse) => {
+        const chatbotMessage = {
+          role: "model",
+          parts: [{ text: chatbotResponse }],
+        };
+        setChatHistory([chatbotMessage]);
+      }
+    );
+  }}
+
   return (
     <div className="body">
       <div className="navigation-bar">
@@ -147,38 +178,7 @@ export default function DocumentPage() {
         </button>
         <button
           className="summarize-document-button"
-          onClick={() => {
-            if (summarizeDocument) {
-              const newMessage = {
-                role: "user",
-                parts: [{ text: documentText }],
-              };
-              getChatbotResponse([newMessage]).then(
-                (chatbotResponse) => {
-                  const chatbotMessage = {
-                    role: "model",
-                    parts: [{ text: chatbotResponse }],
-                  };
-                  setChatHistory([...chatHistory, chatbotMessage]);
-                }
-              );
-            } else {
-              setSummarizeDocument(true);
-              const newMessage = {
-                role: "user",
-                parts: [{ text: documentText }],
-              };
-              getChatbotResponse([newMessage]).then(
-                (chatbotResponse) => {
-                  const chatbotMessage = {
-                    role: "model",
-                    parts: [{ text: chatbotResponse }],
-                  };
-                  setChatHistory([chatbotMessage]);
-                }
-              );
-            }
-          }}
+          onClick={() => getDocumentSummary()}
         >
           Summarize
         </button>
