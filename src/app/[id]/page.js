@@ -12,46 +12,61 @@ export default function DocumentPage() {
   const [documentTitle, setDocumentTitle] = useState("");
   const [documentText, setDocumentText] = useState("");
   const [summarizeDocument, setSummarizeDocument] = useState(false);
-
-  const [chatHistory, setChatHistory] = useState(() => {
-    if (typeof window !== "undefined") {
-      // const savedHistory = window.localStorage.getItem("chatHistory");
-      // return savedHistory ? JSON.parse(savedHistory) : [];
-    }
-    return [];
-  });
-  useEffect(() => {
-    // window.localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-  }, [chatHistory]);
+  const [chatHistory, setChatHistory] = useState([]);
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
 
-  const displayDocumentTitleAndText = async () => {
+  const displayDocumentContents = async () => {
     const docRef = doc(db, "documents", id);
     const document = await getDoc(docRef);
 
     setDocumentTitle(document.data().documentTitle);
     setDocumentText(document.data().documentText);
+    setSummarizeDocument(document.data().summarizeDocument);
+    setChatHistory(document.data().chatHistory);
   };
 
   useEffect(() => {
-    displayDocumentTitleAndText();
+    displayDocumentContents();
   }, []);
 
   const saveDocument = async () => {
     const collectionRef = collection(db, "documents");
     const docRef = doc(db, "documents", id);
 
+    console.log(summarizeDocument);
     if (docRef) {
-      await updateDoc(docRef, {
-        documentTitle: documentTitle,
-        documentText: documentText,
-      });
+      if (summarizeDocument) {
+        await updateDoc(docRef, {
+          documentTitle: documentTitle,
+          documentText: documentText,
+          summarizeDocument: true,
+          chatHistory: chatHistory,
+        });
+      } else {
+        await updateDoc(docRef, {
+          documentTitle: documentTitle,
+          documentText: documentText,
+          summarizeDocument: false,
+          chatHistory: [],
+        });
+      }
     } else {
-      await addDoc(collectionRef, {
-        documentTitle: documentTitle,
-        documentText: documentText,
-      });
+      if (summarizeDocument) {
+        await addDoc(collectionRef, {
+          documentTitle: documentTitle,
+          documentText: documentText,
+          summarizeDocument: true,
+          chatHistory: chatHistory,
+        });
+      } else {
+        await addDoc(collectionRef, {
+          documentTitle: documentTitle,
+          documentText: documentText,
+          summarizeDocument: false,
+          chatHistory: [],
+        });
+      }
     }
   };
 
@@ -127,14 +142,19 @@ export default function DocumentPage() {
           className="summarize-document-button"
           onClick={() => {
             setSummarizeDocument(true);
-            const newMessage = { role: "user", parts: [{ text: documentText }] };
-            getChatbotResponse([...chatHistory, newMessage]).then((chatbotResponse) => {
-              const chatbotMessage = {
-                role: "model",
-                parts: [{ text: chatbotResponse }],
-              };
-              setChatHistory([...chatHistory, chatbotMessage]);
-            });
+            const newMessage = {
+              role: "user",
+              parts: [{ text: documentText }],
+            };
+            getChatbotResponse([newMessage]).then(
+              (chatbotResponse) => {
+                const chatbotMessage = {
+                  role: "model",
+                  parts: [{ text: chatbotResponse }],
+                };
+                setChatHistory([chatbotMessage]);
+              }
+            );
           }}
         >
           Summarize
