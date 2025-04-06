@@ -11,6 +11,7 @@ export default function DocumentPage() {
   const id = params.id;
   const [documentTitle, setDocumentTitle] = useState("");
   const [documentText, setDocumentText] = useState("");
+  const [summarizeDocument, setSummarizeDocument] = useState(false);
 
   const [chatHistory, setChatHistory] = useState(() => {
     if (typeof window !== "undefined") {
@@ -21,8 +22,7 @@ export default function DocumentPage() {
   });
   useEffect(() => {
     // window.localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-  }, [chatHistory])
-
+  }, [chatHistory]);
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
 
@@ -123,6 +123,14 @@ export default function DocumentPage() {
         >
           Exit
         </button>
+        <button
+          className="summarize-document-button"
+          onClick={() => {
+            setSummarizeDocument(true);
+          }}
+        >
+          Summarize
+        </button>
       </div>
       <div className="document-contents">
         <textarea
@@ -130,13 +138,29 @@ export default function DocumentPage() {
           onKeyUp={(event) => setDocumentText(event.target.value)}
           defaultValue={documentText}
         ></textarea>
-        <div className="chatbot-summarizer">
-          <ChatbotContainer messages={chatHistory} chatbotIsTyping={chatbotIsTyping}></ChatbotContainer>
-          <div className="user-options">
-            <input className="message-input" type="text" onChange={(event) => setUserMessage(event.target.value)}></input>
-            <button className="send-message-button" onClick={(event) => sendMessage(event)}>Send</button>
+        {summarizeDocument ? (
+          <div className="chatbot-summarizer">
+            <ChatbotContainer
+              messages={chatHistory}
+              chatbotIsTyping={chatbotIsTyping}
+            ></ChatbotContainer>
+            <div className="user-options">
+              <input
+                className="message-input"
+                type="text"
+                onChange={(event) => setUserMessage(event.target.value)}
+              ></input>
+              <button
+                className="send-message-button"
+                onClick={(event) => sendMessage(event)}
+              >
+                Send
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
