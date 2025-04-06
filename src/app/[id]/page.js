@@ -127,6 +127,14 @@ export default function DocumentPage() {
           className="summarize-document-button"
           onClick={() => {
             setSummarizeDocument(true);
+            const newMessage = { role: "user", parts: [{ text: documentText }] };
+            getChatbotResponse([...chatHistory, newMessage]).then((chatbotResponse) => {
+              const chatbotMessage = {
+                role: "model",
+                parts: [{ text: chatbotResponse }],
+              };
+              setChatHistory([...chatHistory, chatbotMessage]);
+            });
           }}
         >
           Summarize
