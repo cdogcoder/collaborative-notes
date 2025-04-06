@@ -124,16 +124,18 @@ export default function DocumentPage() {
           Exit
         </button>
       </div>
-      <textarea
-        className="document-page"
-        onKeyUp={(event) => setDocumentText(event.target.value)}
-        defaultValue={documentText}
-      ></textarea>
-      <div className="chatbot-summarizer">
-        <ChatbotContainer messages={chatHistory} chatbotIsTyping={chatbotIsTyping}></ChatbotContainer>
-        <div className="user-options">
-          <input className="message-input" type="text" onChange={(event) => setUserMessage(event.target.value)}></input>
-          <button className="send-message-button" onClick={(event) => sendMessage(event)}>Send</button>
+      <div className="document-contents">
+        <textarea
+          className="document-page"
+          onKeyUp={(event) => setDocumentText(event.target.value)}
+          defaultValue={documentText}
+        ></textarea>
+        <div className="chatbot-summarizer">
+          <ChatbotContainer messages={chatHistory} chatbotIsTyping={chatbotIsTyping}></ChatbotContainer>
+          <div className="user-options">
+            <input className="message-input" type="text" onChange={(event) => setUserMessage(event.target.value)}></input>
+            <button className="send-message-button" onClick={(event) => sendMessage(event)}>Send</button>
+          </div>
         </div>
       </div>
     </div>

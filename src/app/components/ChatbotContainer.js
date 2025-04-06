@@ -1,6 +1,6 @@
 export default function ChatbotContainer({ messages, chatbotIsTyping }) {
   return (
-    <div>
+    <div className="messages-container">
       {messages.map((message, index) => (
         <div key={index}>
           <strong>{message.role}:</strong>

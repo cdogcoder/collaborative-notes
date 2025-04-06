@@ -2,7 +2,6 @@
 import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./config/firebase";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function Home() {
