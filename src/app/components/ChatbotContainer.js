@@ -2,8 +2,7 @@ export default function ChatbotContainer({ messages, chatbotIsTyping }) {
   return (
     <div className="messages-container">
       {messages.map((message, index) => (
-        <div key={index}>
-          <strong>{message.role}:</strong>
+        <div className={`message ${message.role == "user" ? "blue-background" : "gray-background"}`} key={index}>
           {message.parts.map((part) => part.text).join(" ")}
         </div>
       ))}
