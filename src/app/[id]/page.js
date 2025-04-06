@@ -15,6 +15,7 @@ export default function DocumentPage() {
   const [chatHistory, setChatHistory] = useState([]);
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
+  const [emptyMessageInput, setEmptyMessageInput] = useState(false);
 
   const displayDocumentContents = async () => {
     const docRef = doc(db, "documents", id);
@@ -122,6 +123,8 @@ export default function DocumentPage() {
       });
     }
     setUserMessage("");
+    const messageInput = document.querySelector("input.message-input");
+    if (messageInput !== null) messageInput.value = "";
   };
 
   return (
