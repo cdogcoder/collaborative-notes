@@ -141,20 +141,36 @@ export default function DocumentPage() {
         <button
           className="summarize-document-button"
           onClick={() => {
-            setSummarizeDocument(true);
-            const newMessage = {
-              role: "user",
-              parts: [{ text: documentText }],
-            };
-            getChatbotResponse([newMessage]).then(
-              (chatbotResponse) => {
-                const chatbotMessage = {
-                  role: "model",
-                  parts: [{ text: chatbotResponse }],
-                };
-                setChatHistory([chatbotMessage]);
-              }
-            );
+            if (summarizeDocument) {
+              const newMessage = {
+                role: "user",
+                parts: [{ text: documentText }],
+              };
+              getChatbotResponse([newMessage]).then(
+                (chatbotResponse) => {
+                  const chatbotMessage = {
+                    role: "model",
+                    parts: [{ text: chatbotResponse }],
+                  };
+                  setChatHistory([...chatHistory, chatbotMessage]);
+                }
+              );
+            } else {
+              setSummarizeDocument(true);
+              const newMessage = {
+                role: "user",
+                parts: [{ text: documentText }],
+              };
+              getChatbotResponse([newMessage]).then(
+                (chatbotResponse) => {
+                  const chatbotMessage = {
+                    role: "model",
+                    parts: [{ text: chatbotResponse }],
+                  };
+                  setChatHistory([chatbotMessage]);
+                }
+              );
+            }
           }}
         >
           Summarize
