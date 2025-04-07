@@ -108,6 +108,23 @@
     background-color: rgba(128, 128, 128, 0.25);
 }
 
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.summary-section {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.section-title strong {
+    font-size: 1.4rem;
+    text-decoration: underline;
+}
+
 .user-options {
     display: flex;
     gap: 1rem;

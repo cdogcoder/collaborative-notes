@@ -2,7 +2,7 @@ export default function ChatbotContainer({ messages, chatbotIsTyping }) {
   const formatMessage = (message, index) => {
     const messageInJSON = JSON.parse((message.parts[0].text).replace(/(\r\n|\n|\r)/gm, "").replace("```json", "").replace('```', ""));
     return (
-      <div className="message gray-background" key={index}>
+      <div className="message gray-background summary" key={index}>
         {Object.keys(messageInJSON).map((message, index) => {
           if (message == "Key Insights") {
             return (<div className="summary-section" key={index}>
