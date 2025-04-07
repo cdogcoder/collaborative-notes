@@ -137,6 +137,7 @@ export default function DocumentPage() {
         const chatbotMessage = {
           role: "model",
           parts: [{ text: chatbotResponse }],
+          identifier: "summary"
         };
         setChatHistory([...chatHistory, chatbotMessage]);
       }
@@ -152,6 +153,7 @@ export default function DocumentPage() {
         const chatbotMessage = {
           role: "model",
           parts: [{ text: chatbotResponse }],
+          identifier: "summary",
         };
         setChatHistory([chatbotMessage]);
       }
