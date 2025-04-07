@@ -25,6 +25,7 @@ export default function DocumentPage() {
     setDocumentText(document.data().documentText);
     setSummarizeDocument(document.data().summarizeDocument);
     setChatHistory(document.data().chatHistory);
+    setMessageIdentifiers(document.data().messageIdentifiers);
   };
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: true,
           chatHistory: chatHistory,
+          messageIdentifiers: messageIdentifiers
         });
       } else {
         await updateDoc(docRef, {
@@ -54,6 +56,7 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: false,
           chatHistory: [],
+          messageIdentifiers: []
         });
       }
     } else {
@@ -63,6 +66,7 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: true,
           chatHistory: chatHistory,
+          messageIdentifiers: messageIdentifiers
         });
       } else {
         await addDoc(collectionRef, {
@@ -70,6 +74,7 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: false,
           chatHistory: [],
+          messageIdentifiers: []
         });
       }
     }
@@ -115,6 +120,7 @@ export default function DocumentPage() {
   const sendMessage = () => {
     if (userMessage == "clear") {
       setChatHistory([]);
+      setMessageIdentifiers([]);
     } else {
       const newMessage = { role: "user", parts: [{ text: userMessage }] };
       const updatedChatHistory = [...chatHistory, newMessage];
@@ -125,11 +131,11 @@ export default function DocumentPage() {
         };
         setChatHistory([...updatedChatHistory, chatbotMessage]);
       });
+      setMessageIdentifiers(messageIdentifiers.length !== 0 ? [...messageIdentifiers, 0, 0] : [0, 0]);
     }
     setUserMessage("");
     const messageInput = document.querySelector("input.message-input");
     if (messageInput !== null) messageInput.value = "";
-    setMessageIdentifiers([...messageIdentifiers, 0, 0]);
   };
 
   const getDocumentSummary = () => {if (summarizeDocument) {
@@ -144,7 +150,7 @@ export default function DocumentPage() {
           parts: [{ text: chatbotResponse }],
         };
         setChatHistory([...chatHistory, chatbotMessage]);
-        setMessageIdentifiers([...messageIdentifiers, 1]);
+        setMessageIdentifiers(messageIdentifiers.length !== 0 ? [...messageIdentifiers, 1] : [1]);
       }
     );
   } else {
@@ -160,7 +166,7 @@ export default function DocumentPage() {
           parts: [{ text: chatbotResponse }],
         };
         setChatHistory([chatbotMessage]);
-        setMessageIdentifiers([...messageIdentifiers, 1]);
+        setMessageIdentifiers(messageIdentifiers.length !== 0 ? [...messageIdentifiers, 1] : [1]);
       }
     );
   }}
