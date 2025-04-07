@@ -13,9 +13,9 @@ export default function DocumentPage() {
   const [documentText, setDocumentText] = useState("");
   const [summarizeDocument, setSummarizeDocument] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
+  const [messageIdentifiers, setMessageIdentifiers] = useState([]);
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
-  const [emptyMessageInput, setEmptyMessageInput] = useState(false);
 
   const displayDocumentContents = async () => {
     const docRef = doc(db, "documents", id);
@@ -30,6 +30,10 @@ export default function DocumentPage() {
   useEffect(() => {
     displayDocumentContents();
   }, []);
+
+  useEffect(() => {
+    console.log(messageIdentifiers)
+  }, [messageIdentifiers])
 
   const saveDocument = async () => {
     const collectionRef = collection(db, "documents");
@@ -125,6 +129,7 @@ export default function DocumentPage() {
     setUserMessage("");
     const messageInput = document.querySelector("input.message-input");
     if (messageInput !== null) messageInput.value = "";
+    setMessageIdentifiers([...messageIdentifiers, 0, 0]);
   };
 
   const getDocumentSummary = () => {if (summarizeDocument) {
@@ -137,9 +142,9 @@ export default function DocumentPage() {
         const chatbotMessage = {
           role: "model",
           parts: [{ text: chatbotResponse }],
-          identifier: "summary"
         };
         setChatHistory([...chatHistory, chatbotMessage]);
+        setMessageIdentifiers([...messageIdentifiers, 1]);
       }
     );
   } else {
@@ -153,9 +158,9 @@ export default function DocumentPage() {
         const chatbotMessage = {
           role: "model",
           parts: [{ text: chatbotResponse }],
-          identifier: "summary",
         };
         setChatHistory([chatbotMessage]);
+        setMessageIdentifiers([...messageIdentifiers, 1]);
       }
     );
   }}
@@ -195,6 +200,7 @@ export default function DocumentPage() {
           <div className="chatbot-summarizer">
             <ChatbotContainer
               messages={chatHistory}
+              messageIdentifiers={messageIdentifiers}
               chatbotIsTyping={chatbotIsTyping}
             ></ChatbotContainer>
             <div className="user-options">
