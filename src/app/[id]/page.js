@@ -16,7 +16,8 @@ export default function DocumentPage() {
   const [messageIdentifiers, setMessageIdentifiers] = useState([]);
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
-
+  const [autoSaveTurnedOn, setAutoSaveTurnedOn] = useState(false);
+  
   const displayDocumentContents = async () => {
     const docRef = doc(db, "documents", id);
     const document = await getDoc(docRef);
@@ -26,6 +27,7 @@ export default function DocumentPage() {
     setSummarizeDocument(document.data().summarizeDocument);
     setChatHistory(document.data().chatHistory);
     setMessageIdentifiers(document.data().messageIdentifiers);
+    setAutoSaveTurnedOn(document.data().autoSaveTurnedOn);
   };
 
   useEffect(() => {
@@ -35,6 +37,12 @@ export default function DocumentPage() {
   useEffect(() => {
     console.log(messageIdentifiers)
   }, [messageIdentifiers])
+
+  useEffect(() => {
+    if (autoSaveTurnedOn) {
+      saveDocument();
+    }
+  }, [documentTitle, documentText, chatHistory])
 
   const saveDocument = async () => {
     const collectionRef = collection(db, "documents");
@@ -48,7 +56,8 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: true,
           chatHistory: chatHistory,
-          messageIdentifiers: messageIdentifiers
+          messageIdentifiers: messageIdentifiers,
+          autoSaveTurnedOn: autoSaveTurnedOn
         });
       } else {
         await updateDoc(docRef, {
@@ -56,7 +65,8 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: false,
           chatHistory: [],
-          messageIdentifiers: []
+          messageIdentifiers: [],
+          autoSaveTurnedOn: autoSaveTurnedOn
         });
       }
     } else {
@@ -66,7 +76,8 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: true,
           chatHistory: chatHistory,
-          messageIdentifiers: messageIdentifiers
+          messageIdentifiers: messageIdentifiers,
+          autoSaveTurnedOn: autoSaveTurnedOn
         });
       } else {
         await addDoc(collectionRef, {
@@ -74,7 +85,8 @@ export default function DocumentPage() {
           documentText: documentText,
           summarizeDocument: false,
           chatHistory: [],
-          messageIdentifiers: []
+          messageIdentifiers: [],
+          autoSaveTurnedOn: autoSaveTurnedOn
         });
       }
     }
@@ -138,7 +150,8 @@ export default function DocumentPage() {
     if (messageInput !== null) messageInput.value = "";
   };
 
-  const getDocumentSummary = () => {if (summarizeDocument) {
+  const getDocumentSummary = () => {
+    if (summarizeDocument) {
     const newMessage = {
       role: "user",
       parts: [{ text: documentText }],
@@ -194,6 +207,12 @@ export default function DocumentPage() {
           onClick={() => getDocumentSummary()}
         >
           Summarize
+        </button>
+        <button
+          className="auto-save-button"
+          onClick={() => setAutoSaveTurnedOn(true)}
+        >
+          Auto-Save
         </button>
       </div>
       <div className="document-contents">

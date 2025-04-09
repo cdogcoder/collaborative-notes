@@ -22,7 +22,7 @@ export default function ChatbotContainer({ messages, messageIdentifiers, chatbot
   }
 
   return (
-    <div className="messages-container">
+    <div className="messages-container can-change">
       {messages.map((message, index) => (
         messageIdentifiers[index] == 1 ? formatMessage(message, index) : <div className={`message ${message.role == "user" ? "blue-background" : "gray-background"}`} key={index}>
           {message.parts.map((part) => part.text).join("")}
