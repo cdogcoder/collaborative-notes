@@ -1,20 +1,20 @@
 export default function ChatbotContainer({ messages, messageIdentifiers, chatbotIsTyping }) {
   const formatMessage = (message, index) => {
-    const messageInJSON = JSON.parse((message.parts[0].text).replace(/(\r\n|\n|\r)/gm, "").replace("```json", "").replace('```', ""));
+    const messageInArray = (JSON.parse((message.parts[0].text).replace(/(\r\n|\n|\r)/gm, "")));
     return (
       <div className="message gray-background summary" key={index}>
-        {Object.keys(messageInJSON).map((message, index) => {
-          if (message == "Key Insights") {
+        {messageInArray.map((message, index) => {
+          if (index == 1) {
             return (<div className="summary-section" key={index}>
-              <p className="section-title"><strong>{message}</strong></p>
-              {messageInJSON[message].map((point, index) => {
+              <p className="section-title"><strong>Key Insights</strong></p>
+              {messageInArray[index].map((point, index) => {
                 return <li key={index}>{point}</li>
               })}
             </div>)
           }
           return (<div className="summary-section" key={index}>
-            <p className="section-title"><strong>{message}</strong></p>
-            <p className="section-text">{messageInJSON[message]}</p>
+            <p className="section-title"><strong>{index == 0 ? "Main Ideas" : "Next Steps"}</strong></p>
+            <p className="section-text">{messageInArray[index]}</p>
           </div>)
         })}
       </div>

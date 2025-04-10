@@ -25,6 +25,10 @@ export default function Home() {
     const docRef = await addDoc(collectionRef, {
       documentTitle: "",
       documentText: "",
+      chatHistory: [],
+      messageIdentifiers: [],
+      summarizeDocument: false,
+      autoSaveTurnedOn: false,
     });
     redirect(`/${docRef.id}`);
   };
