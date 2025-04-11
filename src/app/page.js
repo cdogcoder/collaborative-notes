@@ -1,5 +1,11 @@
 "use client";
-import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "./config/firebase";
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
