@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
-    <div className="body">
+    <div className="body homepage">
       <nav className="header-nav">
         <span className="header-logo">Colloborative Notes</span>
         <button onClick={() => redirect("/sign-up")} className="sign-up-button">
