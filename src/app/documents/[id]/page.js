@@ -1,10 +1,10 @@
 "use client";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db } from "../../config/firebase";
 import { useState, useEffect } from "react";
 import { redirect, useParams } from "next/navigation";
 
-import ChatbotContainer from "../components/ChatbotContainer";
+import ChatbotContainer from "../../components/ChatbotContainer";
 
 export default function DocumentPage() {
   const params = useParams();
@@ -93,7 +93,7 @@ export default function DocumentPage() {
   };
 
   const exitDocumentPage = () => {
-    redirect("/");
+    redirect("/documents");
   };
 
   const getChatbotResponse = async (updatedChatHistory) => {

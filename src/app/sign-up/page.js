@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import { redirect } from "next/navigation";
 
 export default function SignUpPage() {

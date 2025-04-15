@@ -9,6 +9,7 @@ import {
 import { db } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
+import { auth } from "../config/firebase";
 
 export default function Home() {
   const [documents, setDocuments] = useState([]);
@@ -27,6 +28,10 @@ export default function Home() {
     displayDocuments();
   }, []);
 
+  useEffect(() => {
+    console.log(auth.currentUser)
+  }, [])
+
   const addNewDocument = async () => {
     const docRef = await addDoc(collectionRef, {
       documentTitle: "",
@@ -36,7 +41,7 @@ export default function Home() {
       summarizeDocument: false,
       autoSaveTurnedOn: false,
     });
-    redirect(`/${docRef.id}`);
+    redirect(`/documents/${docRef.id}`);
   };
 
   const deleteDocument = async (id) => {
@@ -59,7 +64,7 @@ export default function Home() {
             <div
               className="document"
               key={document.id}
-              onClick={() => redirect(`/${document.id}`)}
+              onClick={() => redirect(`/documents/${document.id}`)}
             >
               {document.documentTitle}
               <button
