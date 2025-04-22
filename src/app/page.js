@@ -1,12 +1,15 @@
 "use client";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className="body homepage">
       <nav className="header-nav">
         <span className="header-logo">Colloborative Notes</span>
-        <button onClick={() => redirect("/sign-up")} className="sign-up-button">
+        <button onClick={() => router.push("/sign-up")} className="sign-up-button">
           Sign Up
         </button>
         <button className="sign-in-button">Sign In</button>

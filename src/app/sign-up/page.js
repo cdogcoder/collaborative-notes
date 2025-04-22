@@ -1,19 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-        console.log(user)
-    })
-  }, [])
-
+  const router = useRouter();
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -28,7 +22,7 @@ export default function SignUpPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      redirect("/documents")
+      router.push("/documents")
     }
   };
 

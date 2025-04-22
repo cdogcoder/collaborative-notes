@@ -2,7 +2,7 @@
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useState, useEffect } from "react";
-import { redirect, useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 import ChatbotContainer from "../../components/ChatbotContainer";
 
@@ -17,7 +17,8 @@ export default function DocumentPage() {
   const [chatbotIsTyping, setChatbotIsTyping] = useState(false);
   const [userMessage, setUserMessage] = useState("");
   const [autoSaveTurnedOn, setAutoSaveTurnedOn] = useState(false);
-  
+  const router = useRouter();
+
   const displayDocumentContents = async () => {
     const docRef = doc(db, "documents", id);
     const document = await getDoc(docRef);
@@ -93,7 +94,7 @@ export default function DocumentPage() {
   };
 
   const exitDocumentPage = () => {
-    redirect("/documents");
+    router.push("/documents");
   };
 
   const getChatbotResponse = async (updatedChatHistory) => {
