@@ -1,24 +1,27 @@
 export default function ChatbotContainer({ messages, messageIdentifiers, chatbotIsTyping }) {
   const formatMessage = (message, index) => {
-    const messageInArray = (JSON.parse((message.parts[0].text).replace(/(\r\n|\n|\r)/gm, "")));
+    try {const messageInArray = (JSON.parse((message.parts[0].text).replace(/(\r\n|\n|\r)/gm, "")));
     return (
       <div className="message gray-background summary" key={index}>
         {messageInArray.map((message, index) => {
           if (index == 1) {
             return (<div className="summary-section" key={index}>
               <p className="section-title"><strong>Key Insights</strong></p>
-              {messageInArray[index].map((point, index) => {
+              {message.map((point, index) => {
                 return <li key={index}>{point}</li>
               })}
             </div>)
           }
           return (<div className="summary-section" key={index}>
             <p className="section-title"><strong>{index == 0 ? "Main Ideas" : "Next Steps"}</strong></p>
-            <p className="section-text">{messageInArray[index]}</p>
+            <p className="section-text">{message}</p>
           </div>)
         })}
-      </div>
-    )
+      </div>)} catch (error) {
+        return <div className="message gray-background">
+          An unexpected error has occurred. Please try summarizing again.
+        </div>
+      }
   }
 
   return (
