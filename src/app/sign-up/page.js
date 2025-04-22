@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { useRouter } from "next/navigation";
+import { addDoc, collection } from "firebase/firestore";
+
 
 export default function SignUpPage() {
   const [newUserEmail, setNewUserEmail] = useState("");
@@ -10,6 +12,8 @@ export default function SignUpPage() {
   const router = useRouter();
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
+  const usersCollectionRef = collection(db, "users");
+
 
   const signUpNewUser = async (event) => {
     event.preventDefault();
@@ -18,11 +22,24 @@ export default function SignUpPage() {
         newUserEmail,
         newUserPassword
       );
-      console.log(response);
+
+      console.log(response.user)
+      await addDoc(usersCollectionRef, {
+        accessToken: response.user.accessToken,
+        displayName: response.user.displayName,
+        email: response.user.email,
+        emailVerified: response.user.emailVerified,
+        isAnonymous: response.user.isAnonymous,
+        phoneNumber: response.user.phoneNumber,
+        photoURL: response.user.photoURL,
+        userId: response.user.uid
+
+      })
+      
     } catch (error) {
       console.log(error);
     } finally {
-      router.push("/documents")
+      router.push("/")
     }
   };
 
