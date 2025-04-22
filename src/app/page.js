@@ -15,7 +15,7 @@ export default function Home() {
       </nav>
       <div className="content-container">
         <h1 className="hero-text">Collaborative Notes</h1>
-        <p>Google Docs, with AI, only worse. Your one-stop-shop for literally nothing. {":)"}</p>
+        <p className="description">Google Docs, with AI, only worse. Your one-stop-shop for literally nothing. {":)"}</p>
       </div>
     </div>
   );

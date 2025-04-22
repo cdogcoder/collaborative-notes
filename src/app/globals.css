@@ -193,6 +193,11 @@
 
 .hero-text {
     font-size: 5rem;
+    text-align: center;
+}
+
+.description {
+    text-align: center;
 }
 
 .sign-up-button, .sign-in-button {

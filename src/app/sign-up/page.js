@@ -33,7 +33,6 @@ export default function SignUpPage() {
         phoneNumber: response.user.phoneNumber,
         photoURL: response.user.photoURL,
         userId: response.user.uid
-
       })
       
     } catch (error) {
