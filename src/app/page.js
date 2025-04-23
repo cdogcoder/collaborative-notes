@@ -1,9 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { auth } from "./config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
   const router = useRouter();
-
+  
   return (
     <div className="body homepage">
       <nav className="header-nav">

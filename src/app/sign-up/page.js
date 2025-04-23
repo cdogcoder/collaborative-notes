@@ -16,6 +16,7 @@ export default function SignUpPage() {
 
 
   const signUpNewUser = async (event) => {
+
     event.preventDefault();
     try {
       const response = await createUserWithEmailAndPassword(
@@ -23,8 +24,7 @@ export default function SignUpPage() {
         newUserPassword
       );
 
-      console.log(response.user)
-      await addDoc(usersCollectionRef, {
+      const userDocRef = await addDoc(usersCollectionRef, {
         accessToken: response.user.accessToken,
         displayName: response.user.displayName,
         email: response.user.email,
@@ -33,8 +33,10 @@ export default function SignUpPage() {
         phoneNumber: response.user.phoneNumber,
         photoURL: response.user.photoURL,
         userId: response.user.uid
-      })
-      
+      });
+
+      const userDocumentsCollectionRef = collection(db, `users/${userDocRef.id}/documents`);
+
     } catch (error) {
       console.log(error);
     } finally {
