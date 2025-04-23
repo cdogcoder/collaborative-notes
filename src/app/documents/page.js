@@ -9,6 +9,7 @@ import {
 import { auth, db } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
 export default function Home() {
   auth.onAuthStateChanged((user) => {
     console.log(user)
@@ -50,12 +51,18 @@ export default function Home() {
 
   return (
     <>
-      <button
-        className="add-new-document-button"
-        onClick={() => addNewDocument()}
-      >
-        Add New Document
-      </button>
+      <div className="documents-buttons-container">
+        <button
+          className="add-new-document-button"
+          onClick={() => addNewDocument()}
+        >
+          Add New Document
+        </button>
+        <button className="sign-out-button" onClick={() => {
+          signOut(auth);
+          router.push("/");
+        }}>Sign Out</button>
+      </div>
       <div className="documents-container">
         {documents.map((document) => {
           return (

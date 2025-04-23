@@ -1,19 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { auth } from "./config/firebase";
 
 export default function Home() {
   const router = useRouter();
-  const [userSignedUp, setUserSignedUp] = useState(false);
 
   auth.onAuthStateChanged((user) => {
-    if (user) {
-      setUserSignedUp(true);
-    }
     console.log(user)
-  });
-
+  })
   return (
     <div className="body homepage">
       <nav className="header-nav">
@@ -38,7 +32,7 @@ export default function Home() {
           nothing. {":)"}
         </p>
       </div>
-      <div className="sign-up-status-message" hidden={!userSignedUp}>
+      <div className="sign-up-status-message" hidden={!auth.currentUser}>
         You've signed up! Please login with the credentials you used to create
         your account.
       </div>
