@@ -6,10 +6,13 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 export default function Home() {
+  auth.onAuthStateChanged((user) => {
+    console.log(user)
+  })
   const [documents, setDocuments] = useState([]);
   const collectionRef = collection(db, "documents");
   const router = useRouter();
