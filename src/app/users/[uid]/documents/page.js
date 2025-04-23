@@ -6,7 +6,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { auth, db } from "../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";

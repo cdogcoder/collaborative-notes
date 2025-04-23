@@ -1,10 +1,10 @@
 "use client";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../config/firebase";
+import { auth, db } from "../../../../config/firebase";
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 
-import ChatbotContainer from "../../components/ChatbotContainer";
+import ChatbotContainer from "../../../../components/ChatbotContainer";
 
 export default function DocumentPage() {
   const params = useParams();
