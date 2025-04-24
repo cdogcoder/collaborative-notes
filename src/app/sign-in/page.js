@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, db } from "../config/firebase";
 import { useRouter } from "next/navigation";
-import { collection } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 
 export default function SignInPage() {
@@ -12,12 +12,19 @@ export default function SignInPage() {
   const router = useRouter();
   const [signInWithEmailAndPassword] =
     useSignInWithEmailAndPassword(auth);
+  const usersCollectionRef = collection(db, "users");
 
   const signInUser = async (event) => {
     event.preventDefault();
     const userRef = await signInWithEmailAndPassword(userEmail, userPassword);
-    console.log(userRef.user.uid);
-    router.push(`/users/${userRef.user.uid}/documents`);
+    const userDocs = await getDocs(usersCollectionRef);
+    const userDocsInDB = userDocs.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+    const userDocId = userDocsInDB.find((doc) => userRef.user.uid == doc.userId).id;
+    console.log(userDocId)
+    router.push(`/users/${userDocId}/documents`);
   };
 
   return (

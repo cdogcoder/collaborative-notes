@@ -9,6 +9,7 @@ import ChatbotContainer from "../../../../components/ChatbotContainer";
 export default function DocumentPage() {
   const params = useParams();
   const id = params.id;
+  const uid = params.uid;
   const [documentTitle, setDocumentTitle] = useState("");
   const [documentText, setDocumentText] = useState("");
   const [summarizeDocument, setSummarizeDocument] = useState(false);
@@ -20,7 +21,7 @@ export default function DocumentPage() {
   const router = useRouter();
 
   const displayDocumentContents = async () => {
-    const docRef = doc(db, `users/${auth.currentUser.uid}/documents`, id);
+    const docRef = doc(db, `users/${uid}/documents`, id);
     const document = await getDoc(docRef);
 
     setDocumentTitle(document.data().documentTitle);
@@ -46,8 +47,8 @@ export default function DocumentPage() {
   }, [documentTitle, documentText, chatHistory])
 
   const saveDocument = async () => {
-    const collectionRef = collection(db, "documents");
-    const docRef = doc(db, "documents", id);
+    const collectionRef = collection(db, `users/${uid}/documents`);
+    const docRef = doc(db, `users/${uid}/documents`, id);
 
     console.log(summarizeDocument);
     if (docRef) {
@@ -95,7 +96,7 @@ export default function DocumentPage() {
 
   const exitDocumentPage = () => {
     auth.onAuthStateChanged(() => {
-      router.push(`/users/${auth.currentUser.uid}/documents`);
+      router.push(`/users/${uid}/documents`);
     })
   };
 

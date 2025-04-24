@@ -24,7 +24,7 @@ export default function SignUpPage() {
         newUserPassword
       );
 
-      const userDocRef = await addDoc(usersCollectionRef, {
+      await addDoc(usersCollectionRef, {
         accessToken: response.user.accessToken,
         displayName: response.user.displayName,
         email: response.user.email,
@@ -34,8 +34,6 @@ export default function SignUpPage() {
         photoURL: response.user.photoURL,
         userId: response.user.uid
       });
-
-      const userDocumentsCollectionRef = collection(db, `users/${userDocRef.id}/documents`);
 
     } catch (error) {
       console.log(error);

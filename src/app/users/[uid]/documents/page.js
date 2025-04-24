@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   const deleteDocument = async (id) => {
-    const docRef = doc(db, "documents", id);
+    const docRef = doc(db, `/users/${uid}/documents`, id);
     await deleteDoc(docRef);
     displayDocuments();
   };
