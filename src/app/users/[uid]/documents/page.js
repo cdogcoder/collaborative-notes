@@ -8,14 +8,13 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../../config/firebase";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 export default function Home() {
-  auth.onAuthStateChanged((user) => {
-    console.log(user)
-  })
+  const params = useParams();
+  const uid = params.uid;
   const [documents, setDocuments] = useState([]);
-  const collectionRef = collection(db, "documents");
+  const collectionRef = collection(db, `users/${uid}/documents`);
   const router = useRouter();
 
   const displayDocuments = async () => {
@@ -40,7 +39,7 @@ export default function Home() {
       summarizeDocument: false,
       autoSaveTurnedOn: false,
     });
-    router.push(`/documents/${docRef.id}`);
+    router.push(`/users/${uid}/documents/${docRef.id}`);
   };
 
   const deleteDocument = async (id) => {

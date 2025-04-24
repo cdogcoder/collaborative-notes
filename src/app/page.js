@@ -5,9 +5,6 @@ import { auth } from "./config/firebase";
 export default function Home() {
   const router = useRouter();
 
-  auth.onAuthStateChanged((user) => {
-    console.log(user)
-  })
   return (
     <div className="body homepage">
       <nav className="header-nav">

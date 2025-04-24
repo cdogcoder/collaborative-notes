@@ -20,7 +20,7 @@ export default function DocumentPage() {
   const router = useRouter();
 
   const displayDocumentContents = async () => {
-    const docRef = doc(db, "documents", id);
+    const docRef = doc(db, `users/${auth.currentUser.uid}/documents`, id);
     const document = await getDoc(docRef);
 
     setDocumentTitle(document.data().documentTitle);
@@ -94,7 +94,9 @@ export default function DocumentPage() {
   };
 
   const exitDocumentPage = () => {
-    router.push("/documents");
+    auth.onAuthStateChanged(() => {
+      router.push(`/users/${auth.currentUser.uid}/documents`);
+    })
   };
 
   const getChatbotResponse = async (updatedChatHistory) => {
