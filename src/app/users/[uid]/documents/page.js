@@ -68,7 +68,7 @@ export default function Home() {
             <div
               className="document"
               key={document.id}
-              onClick={() => router.push(`/documents/${document.id}`)}
+              onClick={() => router.push(`/users/${uid}/documents/${document.id}`)}
             >
               {document.documentTitle}
               <button
