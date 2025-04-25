@@ -48,6 +48,8 @@ export default function Home() {
     displayDocuments();
   };
 
+  if (!auth.currentUser) return <div>Nice try dumbass</div>
+
   return (
     <>
       <div className="documents-buttons-container">
