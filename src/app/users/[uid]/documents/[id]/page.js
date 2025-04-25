@@ -188,6 +188,8 @@ export default function DocumentPage() {
     );
   }}
 
+  if (!auth.currentUser) return <div>Nice try dumbass</div>
+
   return (
     <div className="body">
       <div className="navigation-bar">
