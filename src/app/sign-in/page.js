@@ -23,7 +23,6 @@ export default function SignInPage() {
       id: doc.id
     }))
     const userDocId = userDocsInDB.find((doc) => userRef.user.uid == doc.userId).id;
-    console.log(userDocId)
     router.push(`/users/${userDocId}/documents`);
   };
 

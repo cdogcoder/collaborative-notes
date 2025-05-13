@@ -1,5 +1,5 @@
 "use client";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../../config/firebase";
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
@@ -19,6 +19,26 @@ export default function DocumentPage() {
   const [userMessage, setUserMessage] = useState("");
   const [autoSaveTurnedOn, setAutoSaveTurnedOn] = useState(false);
   const router = useRouter();
+
+  const isAuthorized = async () => {
+    const usersCollectionRef = collection(db, "/users");
+    if (!auth.currentUser) {
+      return <div>Nice try dumbass</div>
+    } else { 
+      const currentUserId = auth.currentUser.uid
+      const userDocs = await getDocs(usersCollectionRef);
+      const userDocsInDB = userDocs.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      const currentUserDocId = userDocsInDB.find((doc) => currentUserId == doc.userId).id;
+      if (currentUserDocId != uid) return <div>Nice try dumbass</div>
+    }
+  }
+
+  auth.onAuthStateChanged(() => {
+    isAuthorized()
+  })
 
   const displayDocumentContents = async () => {
     const docRef = doc(db, `users/${uid}/documents`, id);
@@ -188,7 +208,6 @@ export default function DocumentPage() {
     );
   }}
 
-  if (!auth.currentUser) return <div>Nice try dumbass</div>
 
   return (
     <div className="body">

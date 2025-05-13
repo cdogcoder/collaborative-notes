@@ -17,6 +17,29 @@ export default function Home() {
   const collectionRef = collection(db, `users/${uid}/documents`);
   const router = useRouter();
 
+  const isAuthorized = async () => {
+    const usersCollectionRef = collection(db, "/users");
+    if (!auth.currentUser) {
+      return <div></div>;
+    } else {
+      console.log(uid);
+      const currentUserId = auth.currentUser.uid;
+      const userDocs = await getDocs(usersCollectionRef);
+      const userDocsInDB = userDocs.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const currentUserDocId = userDocsInDB.find(
+        (doc) => currentUserId == doc.userId
+      ).id;
+      console.log(currentUserDocId)
+      if (currentUserDocId != uid) {
+        return <div></div>;
+      };
+    }
+  };
+
+
   const displayDocuments = async () => {
     const documentsSnapshot = await getDocs(collectionRef);
     const documentsSaved = documentsSnapshot.docs.map((doc) => ({
@@ -48,8 +71,6 @@ export default function Home() {
     displayDocuments();
   };
 
-  if (!auth.currentUser) return <div>Nice try dumbass</div>
-
   return (
     <>
       <div className="documents-buttons-container">
@@ -59,10 +80,15 @@ export default function Home() {
         >
           Add New Document
         </button>
-        <button className="sign-out-button" onClick={() => {
-          signOut(auth);
-          router.push("/");
-        }}>Sign Out</button>
+        <button
+          className="sign-out-button"
+          onClick={() => {
+            router.push("/");
+            signOut(auth);
+          }}
+        >
+          Sign Out
+        </button>
       </div>
       <div className="documents-container">
         {documents.map((document) => {
@@ -70,7 +96,9 @@ export default function Home() {
             <div
               className="document"
               key={document.id}
-              onClick={() => router.push(`/users/${uid}/documents/${document.id}`)}
+              onClick={() =>
+                router.push(`/users/${uid}/documents/${document.id}`)
+              }
             >
               {document.documentTitle}
               <button
